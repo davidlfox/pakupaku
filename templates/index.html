@@ -11,6 +11,7 @@
         $(function() {
             $('#btn-chat').on('click', function() {
                 var input = $('#btn-input').val();
+                $('#btn-chat').val('');
                 prepend_message(input, 'http://placehold.it/50/FA6F57/fff&text=Y', 'You');
                 $.ajax({
                     url: '/fortune',
