@@ -10,25 +10,36 @@
     <script type="text/javascript">
         $(function() {
             $('#btn-chat').on('click', function() {
+                var input = $('#btn-input').val();
+                prepend_message(input, 'http://placehold.it/50/FA6F57/fff&text=Y', 'You');
                 $.ajax({
                     url: '/fortune',
                     type: 'post',
+                    data: {
+                        "input": input
+                    },
                     success: function(xhr_data) {
-                        prepend_message(xhr_data.message);
+                        prepend_message(xhr_data.message, 'http://placehold.it/50/55C1E7/fff&text=PP', 'Paku-Paku');
                     }
                 });
             });
         });
 
-        function prepend_message(message) {
+        function prepend_message(message, img_url, author) {
             // hack. whatever, i dont know how to do this better in flask yet
-            $('#chat-body').prepend(`<li class="right clearfix"><span class="chat-img pull-right">
-                                                <img src="http://placehold.it/50/FA6F57/fff&text=Y" alt="User Avatar"
+            var side = 'left';
+            var pullClass = '';
+            if (author == 'You') {
+                side = 'right';
+                pullClass = 'pull-right';
+            }
+            $('#chat-body').prepend(`<li class="` + side + ` clearfix"><span class="chat-img pull-` + side + `">
+                                                <img src="` + img_url + `" alt="User Avatar"
                                                     class="img-circle" />
                                             </span>
                                             <div class="chat-body clearfix">
                                                 <div class="header">
-                                                    <strong class="pull-right primary-font">You</strong>
+                                                    <strong class="` + pullClass + ` primary-font">` + author + `</strong>
                                                 </div>
                                                 <p>
                                                     ` + message + `
